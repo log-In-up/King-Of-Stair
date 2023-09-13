@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Player
+namespace Movement
 {
     public sealed class JumpMovement : AbstractMovement
     {
@@ -10,16 +10,38 @@ namespace Player
         #endregion
 
         #region Fields
+        private bool _isJumping;
         private Coroutine _jumpCoroutine;
 
         private const float ZERO = 0.0f;
         private const int MIDDLE_POINT_DIVIDER = 2;
         private const int TOTAL_TIME = 1;
+
+        public override bool CanMove
+        {
+            get => _isJumping; 
+            protected set
+            {
+                _isJumping = value;
+            }
+        }
+        #endregion
+
+        #region MonoBehaviour API
+        private void OnEnable() => CanMove = true;
+
+        private void OnDisable()
+        {
+            _jumpCoroutine = null;
+            CanMove = true;
+        }
         #endregion
 
         #region Methods
         private IEnumerator Jump(Vector3 startPoint, Vector3 endPoint, Vector3 middlePoint, float jumpDuration)
         {
+            CanMove = false;
+
             float jumpTime = jumpDuration;
             float currentTime;
 
@@ -41,6 +63,8 @@ namespace Player
             transform.position = positionOnArc;
 
             _jumpCoroutine = null;
+
+            CanMove = true;
         }
 
         private void LaunchJump(Vector3 destination, float jumpHeight, float jumpDuration)
@@ -58,25 +82,25 @@ namespace Player
         #endregion
 
         #region Abstract Realization        
-        internal override void MoveForward()
+        public override void MoveForward()
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(_jumpMovementData.NextVerticalJumpPosition, _jumpMovementData.HorizontalJumpHeight, _jumpMovementData.VerticalJumpDuration);
+            LaunchJump(_jumpMovementData.NextHorizontalJumpPosition, _jumpMovementData.HorizontalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
         }
 
-        internal override void MoveLeft()
+        public override void MoveLeft()
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(new Vector3(-_jumpMovementData.HorizontalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
+            LaunchJump(new Vector3(-_jumpMovementData.VerticalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.VerticalJumpDuration);
         }
 
-        internal override void MoveRight()
+        public override void MoveRight()
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(new Vector3(_jumpMovementData.HorizontalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
+            LaunchJump(new Vector3(_jumpMovementData.VerticalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.VerticalJumpDuration);
         }
         #endregion
     }
