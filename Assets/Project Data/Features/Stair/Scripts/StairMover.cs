@@ -8,15 +8,12 @@ namespace Ladder
 #if UNITY_EDITOR
     [DisallowMultipleComponent]
 #endif
-    public class StairMover : MonoBehaviour
+    public sealed class StairMover : MonoBehaviour
     {
         #region Editor Fields
         [SerializeField] private AbstractFactory _factory;
         [SerializeField] private Transform _parentForLadder;
-        [SerializeField, Min(0.1f)] private float _moveSpeed = 1.0f;
-        [SerializeField, Min(0.1f)] private float _moveDistance = 1.0f;        
-        [SerializeField] private Vector3 _moveDirection;
-        [SerializeField] private Vector3 _topPosition;
+        [SerializeField] private StairMoverData _data;
         #endregion
 
         #region Fields
@@ -25,16 +22,7 @@ namespace Ladder
         #endregion
 
         #region MonoBehaviour API
-        private void Start() => _moveTime = _moveDistance / _moveSpeed;
-
-        private void Update()
-        {
-            //Temporary logic to call the ladder to move
-            if (Input.GetKey(KeyCode.Space) && _move == null)
-            {
-                _move = StartCoroutine(Move());
-            }
-        }
+        private void Start() => _moveTime = _data.MoveDistance / _data.MoveSpeed;
         #endregion
 
         #region Methods        
@@ -47,8 +35,8 @@ namespace Ladder
                 ladders.Add(transform.gameObject);
             }
 
-            GameObject stair = _factory.CreateEntity();            
-            stair.transform.SetPositionAndRotation(_topPosition, Quaternion.identity);
+            GameObject stair = _factory.CreateEntity();
+            stair.transform.SetPositionAndRotation(_data.TopPosition, Quaternion.identity);
 
             float moveDuration = _moveTime;
 
@@ -60,7 +48,7 @@ namespace Ladder
                 {
                     if (transform.gameObject.activeSelf)
                     {
-                        ladder.transform.Translate(_moveSpeed * Time.deltaTime * _moveDirection);
+                        ladder.transform.Translate(_data.MoveSpeed * Time.deltaTime * _data.MoveDirection);
                     }
                 }
 
@@ -68,6 +56,15 @@ namespace Ladder
             }
 
             _move = null;
+        }
+        #endregion
+
+        #region Public API
+        public void CallMoveStair()
+        {
+            if (_move != null) return;
+
+            _move = StartCoroutine(Move());
         }
         #endregion
     }

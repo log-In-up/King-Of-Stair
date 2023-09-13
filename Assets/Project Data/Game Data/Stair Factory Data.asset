@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f022bc201f863664bbb1fe246c700207, type: 3}
+  m_Name: Stair Factory Data
+  m_EditorClassIdentifier: 
+  _sizeOfPool: 16
+  _stair: {fileID: 3920830821906441174, guid: d336eecf1ac8f034395f5db0766ca0a7, type: 3}
+  _spawnOrigin: {x: 0, y: -5, z: -4.5}
+  _spawnOffset: {x: 0, y: 1, z: 1}

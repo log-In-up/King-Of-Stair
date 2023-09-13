@@ -1,6 +1,5 @@
 using Factory;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace Ladder
@@ -11,11 +10,8 @@ namespace Ladder
     public class StairFactory : AbstractFactory
     {
         #region Editor Fields
-        [SerializeField] private GameObject _stair;
         [SerializeField] private Transform _parent;
-        [SerializeField, Min(0)] private int _sizeOfPool = 16;
-        [SerializeField] private Vector3 _spawnOrigin;
-        [SerializeField] private Vector3 _spawnOffset;
+        [SerializeField] private StairFactoryData _data;
         #endregion
 
         #region Fields
@@ -37,9 +33,9 @@ namespace Ladder
         {
             _ladderQueue = new Queue<GameObject>();
 
-            for (int poolIndex = 0; poolIndex < _sizeOfPool; poolIndex++)
+            for (int poolIndex = 0; poolIndex < _data.SizeOfPool; poolIndex++)
             {
-                GameObject ladder = Instantiate(_stair, _parent);
+                GameObject ladder = Instantiate(_data.Stair, _parent);
                 ladder.SetActive(false);
 
                 _ladderQueue.Enqueue(ladder);                
@@ -48,15 +44,15 @@ namespace Ladder
 
         private void SpawnStairs()
         {
-            Vector3 spawnPoint = _spawnOrigin;
+            Vector3 spawnPoint = _data.SpawnOrigin;
 
-            for (int ladderIndex = 0; ladderIndex < _sizeOfPool; ladderIndex++)
+            for (int ladderIndex = 0; ladderIndex < _data.SizeOfPool; ladderIndex++)
             {
                 GameObject objectFromPool = CreateEntity();
 
                 objectFromPool.transform.SetPositionAndRotation(spawnPoint, Quaternion.identity);
 
-                spawnPoint += _spawnOffset;
+                spawnPoint += _data.SpawnOffset;
             }
         }
         #endregion
