@@ -20,12 +20,21 @@ namespace Game
 
         #region Fields
         private Coroutine _spawnCorotine;
+        private UserInterface.Game _gameView;
+        private int _score;
         #endregion
 
         #region MonoBehaviour API
+        private void Awake()
+        {
+            _gameView = FindObjectOfType<UserInterface.Game>(true);
+        }
+
         private void OnEnable()
         {
             _stairMover.enabled = true;
+            _score = 0;
+            _gameView.SetScore(_score);
 
             _playerController.OnMoveForward += OnPlayerMoveForward;
             _playerController.OnCollisionWithEnemy += OnEnemyAndPlayerCollision;
@@ -61,9 +70,17 @@ namespace Game
             {
                 _stairMover.CallMoveStair();
             }
+
+            _score++;
+            _gameView.SetScore(_score);
         }
 
-        private void OnEnemyAndPlayerCollision() => _stairMover.enabled = false;
+        private void OnEnemyAndPlayerCollision()
+        {
+            _stairMover.enabled = false;
+
+            _gameView.ShowWindowOnGameOver();
+        }
         #endregion
     }
 }

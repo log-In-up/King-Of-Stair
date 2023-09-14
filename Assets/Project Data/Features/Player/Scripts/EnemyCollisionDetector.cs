@@ -18,5 +18,13 @@ namespace Player
                 _controller.OnEnemyDetection();
             }
         }
+
+        private void OnTriggerEnter(Collider collider)
+        {
+            if (collider.CompareTag(ENEMY_TAG))
+            {
+                _controller.OnEnemyDetection();
+            }
+        }
     }
 }
