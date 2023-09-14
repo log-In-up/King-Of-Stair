@@ -1,0 +1,20 @@
+{
+    "name": "Stair",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d528c8c98d269ca44a06cd9624a03945",
+        "GUID:b93f844d45cfcc44fa2b0eed5c9ec6bb",
+        "GUID:9827665898a1669499cd7234bd86f027",
+        "GUID:82731652481de0c4b859bd58b9bcceba",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
