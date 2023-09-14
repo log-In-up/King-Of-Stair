@@ -1,5 +1,4 @@
 using Movement;
-using System.Collections;
 using UnityEngine;
 
 namespace Enemy

@@ -1,6 +1,6 @@
+using Movement;
 using System;
 using UnityEngine;
-using Movement;
 
 namespace Player
 {

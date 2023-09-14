@@ -28,8 +28,13 @@ namespace Ladder
         #region Methods        
         private IEnumerator Move()
         {
-            List<GameObject> ladders = new List<GameObject>();
+            List<Vector3> ladderPositions = new List<Vector3>();
+            foreach (GameObject item in _factory.Queue)
+            {
+                ladderPositions.Add(item.transform.position);
+            }
 
+            List<GameObject> ladders = new List<GameObject>();
             foreach (Transform transform in _parentForLadder)
             {
                 ladders.Add(transform.gameObject);
@@ -46,13 +51,17 @@ namespace Ladder
 
                 foreach (GameObject ladder in ladders)
                 {
-                    if (transform.gameObject.activeSelf)
-                    {
-                        ladder.transform.Translate(_data.MoveSpeed * Time.deltaTime * _data.MoveDirection);
-                    }
+                    ladder.transform.Translate(_data.MoveSpeed * Time.deltaTime * _data.MoveDirection);
                 }
 
                 moveDuration -= Time.deltaTime;
+            }
+
+            int index = 0;
+            foreach (GameObject item in _factory.Queue)
+            {
+                item.transform.SetPositionAndRotation(ladderPositions[index], Quaternion.identity);
+                index++;
             }
 
             _move = null;
