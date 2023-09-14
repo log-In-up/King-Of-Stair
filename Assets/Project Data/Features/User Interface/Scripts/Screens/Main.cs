@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UserInterface
 {
@@ -7,8 +9,8 @@ namespace UserInterface
 #endif
     public class Main : ScreenObserver
     {
-        #region Fields
-
+        #region Editor Fields
+        [SerializeField] private Button _startGame;
         #endregion
 
         #region Properties
@@ -18,18 +20,32 @@ namespace UserInterface
         #region Overridden Methods
         public override void Activate()
         {
+            _startGame.onClick.AddListener(OnClickStartGame);
+            SceneManager.activeSceneChanged += OnActiveSceneChange;
+
             base.Activate();
+            _startGame.interactable = true;
         }
 
         public override void Deactivate()
         {
+            _startGame.onClick.RemoveListener(OnClickStartGame);
+            SceneManager.activeSceneChanged -= OnActiveSceneChange;
+
             base.Deactivate();
+            _startGame.interactable = true;
         }
         #endregion
 
-        #region Public methods
+        #region Event Handlers
+        private void OnClickStartGame()
+        {
+            SceneManager.LoadScene(GameScenes.GAME);
 
+            _startGame.interactable = false;
+        }
+
+        private void OnActiveSceneChange(Scene current, Scene next) => UICore.OpenScreen(UIScreen.Game);
         #endregion
-
     }
 }
