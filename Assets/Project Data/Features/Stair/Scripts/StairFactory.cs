@@ -19,6 +19,10 @@ namespace Ladder
         private Queue<GameObject> _ladderQueue;
         #endregion
 
+        #region Properties
+        public override Queue<GameObject> Queue => _ladderQueue;
+        #endregion
+
         #region MonoBehaviour API
         private void Start()
         {
@@ -36,7 +40,6 @@ namespace Ladder
             for (int poolIndex = 0; poolIndex < _data.SizeOfPool; poolIndex++)
             {
                 GameObject ladder = Instantiate(_data.Stair, _parent);
-                ladder.SetActive(false);
 
                 _ladderQueue.Enqueue(ladder);                
             }
@@ -61,7 +64,6 @@ namespace Ladder
         public override GameObject CreateEntity()
         {
             _ladderToSpawn = _ladderQueue.Dequeue();
-            _ladderToSpawn.SetActive(true);
 
             _ladderQueue.Enqueue(_ladderToSpawn);
 

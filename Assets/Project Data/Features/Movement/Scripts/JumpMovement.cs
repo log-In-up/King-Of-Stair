@@ -16,14 +16,13 @@ namespace Movement
         private const float ZERO = 0.0f;
         private const int MIDDLE_POINT_DIVIDER = 2;
         private const int TOTAL_TIME = 1;
+        #endregion
 
+        #region Properties
         public override bool CanMove
         {
-            get => _isJumping; 
-            protected set
-            {
-                _isJumping = value;
-            }
+            get => _isJumping;
+            protected set => _isJumping = value;
         }
         #endregion
 
@@ -45,11 +44,9 @@ namespace Movement
             float jumpTime = jumpDuration;
             float currentTime;
 
-            Vector3 positionOnArc = new Vector3();
-            while (jumpTime >= 0.0f)
+            Vector3 positionOnArc;
+            do
             {
-                yield return new WaitForEndOfFrame();
-
                 currentTime = 1.0f - (jumpTime / jumpDuration);
 
                 //quadratic Bezier formula
@@ -58,9 +55,12 @@ namespace Movement
                 transform.position = positionOnArc;
 
                 jumpTime -= Time.deltaTime;
-            }
 
-            transform.position = positionOnArc;
+                yield return new WaitForEndOfFrame();
+            }
+            while (jumpTime >= 0.0f);
+
+            transform.position = endPoint;
 
             _jumpCoroutine = null;
 
@@ -86,21 +86,21 @@ namespace Movement
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(_jumpMovementData.NextHorizontalJumpPosition, _jumpMovementData.HorizontalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
+            LaunchJump(_jumpMovementData.NextVerticalJumpPosition, _jumpMovementData.VerticalJumpHeight, _jumpMovementData.VerticalJumpDuration);
         }
 
         public override void MoveLeft()
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(new Vector3(-_jumpMovementData.VerticalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.VerticalJumpDuration);
+            LaunchJump(new Vector3(-_jumpMovementData.HorizontalJumpDistance, ZERO, ZERO), _jumpMovementData.HorizontalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
         }
 
         public override void MoveRight()
         {
             if (_jumpCoroutine != null) return;
 
-            LaunchJump(new Vector3(_jumpMovementData.VerticalJumpDistance, ZERO, ZERO), _jumpMovementData.VerticalJumpHeight, _jumpMovementData.VerticalJumpDuration);
+            LaunchJump(new Vector3(_jumpMovementData.HorizontalJumpDistance, ZERO, ZERO), _jumpMovementData.HorizontalJumpHeight, _jumpMovementData.HorizontalJumpDuration);
         }
         #endregion
     }

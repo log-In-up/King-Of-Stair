@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1eaab7eb67db442862f9c928a1d3c8, type: 3}
   m_Name: Player Jump Data
   m_EditorClassIdentifier: 
-  _verticalJumpDuration: 0.25
-  _verticalJumpHeight: 1.25
-  _verticalJumpDistance: 1
   _horizontalJumpDuration: 0.25
   _horizontalJumpHeight: 3
-  _nextHorizontalJumpPosition: {x: 0, y: 1, z: 0.2}
+  _horizontalJumpDistance: 1
+  _verticalJumpDuration: 0.25
+  _verticalJumpHeight: 2
+  _nextVerticalJumpPosition: {x: 0, y: 0, z: 0}

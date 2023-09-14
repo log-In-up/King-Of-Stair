@@ -25,10 +25,7 @@ namespace Game
         #endregion
 
         #region MonoBehaviour API
-        private void Awake()
-        {
-            _gameView = FindObjectOfType<UserInterface.Game>(true);
-        }
+        private void Awake() => _gameView = FindObjectOfType<UserInterface.Game>(true);
 
         private void OnEnable()
         {

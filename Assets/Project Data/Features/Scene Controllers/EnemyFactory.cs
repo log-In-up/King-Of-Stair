@@ -19,6 +19,10 @@ namespace Game
         private GameObject _enemy;
         #endregion
 
+        #region Properties
+        public override Queue<GameObject> Queue => _spawnQueue;
+        #endregion
+
         #region MonoBehaviour API
         private void Start() => InitializeFactory();
         #endregion
@@ -35,7 +39,6 @@ namespace Game
                 randomIndex = Random.Range(0, _enemySpawnData.Enemies.Count);
 
                 GameObject enemy = Instantiate(_enemySpawnData.Enemies[randomIndex], _spawnParent);
-                enemy.name = poolIndex.ToString();
                 enemy.SetActive(false);
 
                 _spawnQueue.Enqueue(enemy);
